@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { dbService } from "../myBase";
+import { dbService, storageService } from "../myBase";
 
 export default ({nweet, isOwner}) => {
 	const [editing, setEditing] = useState(false);
 	const [newNweet, setNewNweet] = useState("");
-	const onDelete = () => {
+	const onDelete = async () => {
 		const confirmed = window.confirm("Are you sure?");
-		if (confirmed)
-			dbService.doc(`nweets/${nweet.id}`).delete()
+		if (confirmed) {
+			await dbService.doc(`nweets/${nweet.id}`).delete();
+			await storageService.refFromURL(nweet.imageUrl).delete();
+		}
 	};
 	const toggleEditing = () => {
 		setEditing(prev => !prev);
@@ -27,14 +29,14 @@ export default ({nweet, isOwner}) => {
 		if (!editing)
 		return (
 	<>
-	<div>{nweet.text} <button onClick={toggleEditing}>Edit nweet!</button>
+	<div>{nweet.text} {nweet.imageUrl && <img src={nweet.imageUrl} width="50px" height="50px" />}<button onClick={toggleEditing}>Edit nweet!</button>
 	<button onClick={onDelete}>Delete nweet!</button></div>
 	</>
 	);
 		else
 		return (
 			<>
-			<div>{nweet.text} <form onSubmit={onSubmit}><input value={newNweet} onChange={onChange} /><input type="submit" value="Update Nweet" /><button onClick={toggleEditing}>Cancel</button></form></div>
+			<div>{nweet.text} {nweet.imageUrl && <img src={nweet.imageUrl} width="50px" height="50px" />}<form onSubmit={onSubmit}><input value={newNweet} onChange={onChange} /><input type="submit" value="Update Nweet" /><button onClick={toggleEditing}>Cancel</button></form></div>
 			</>
 		)
 		}

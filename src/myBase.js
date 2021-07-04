@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-
+import "firebase/storage";
 const firebaseConfig = {
     apiKey: "AIzaSyDlK53dMmAhCjv2BaUXybaTfMRMYLCDPd0",
     authDomain: "nwitter-f5933.firebaseapp.com",
@@ -17,3 +17,4 @@ export const fbi = firebase;
 
 export const authService = firebase.auth();
 export const dbService = firebase.firestore();
+export const storageService = firebase.storage();

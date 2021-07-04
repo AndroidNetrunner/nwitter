@@ -8,11 +8,18 @@ const App = () => {
   useEffect(() => {
     authService.onAuthStateChanged(user => {
       if (user) {
+        if (user.displayName === null)
+        user.updateProfile({
+          displayName:"Anonymous",
+        });
         setIsLoggedIn(true);
         setUserObj(user);
       }
       else
+      {
         setIsLoggedIn(false);
+        setUserObj(null);
+      }
       setInit(true);
     });
   }, [])

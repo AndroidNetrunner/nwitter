@@ -7,9 +7,9 @@ import Navigation from "./Navigation";
 export default ({isLoggedIn, userObj}) => {
 	return (
 		<Router>
-			{isLoggedIn && <Navigation />}
+			{isLoggedIn && <Navigation userObj={userObj} />}
 			<Switch>
-				{isLoggedIn ? <><Route exact path="/" render={()=> <Home userObj={userObj} />} /><Route exact path="/profile" component={Profile} /></> : <Route exact path="/" component={Auth} />}
+				{isLoggedIn ? <><Route exact path="/" render={()=> <Home userObj={userObj} />} /><Route exact path="/profile" render={()=> <Profile userObj={userObj} />} /></> : <Route exact path="/" component={Auth} />}
 			</Switch>
 		</Router>
 	)
